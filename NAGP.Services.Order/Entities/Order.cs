@@ -10,6 +10,8 @@ namespace NAGP.Services.OrderAPI.Entities
         [Required]
         public int CustomerId  { get; set; }
         public int ProviderId { get; set; }
+        [Required]
+        public int ServiceId { get; set; }
         public OrderStatusEnum ConfirmStatus { get; set; } = OrderStatusEnum.Pending;
     }
 }
