@@ -1,0 +1,64 @@
+{
+  "Routes": [
+    {
+      "ServiceName": "AdminAPI",
+      "DownstreamPathTemplate": "/api/admin",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/admin",
+      "UpstreamHttpMethod": [ "POST" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "CustomerAPI",
+      "DownstreamPathTemplate": "/api/customer",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/customer",
+      "UpstreamHttpMethod": [ "POST" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "ProviderAPI",
+      "DownstreamPathTemplate": "/api/provider",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/provider",
+      "UpstreamHttpMethod": [ "POST" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "ServiceAPI",
+      "DownstreamPathTemplate": "/api/service",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/service",
+      "UpstreamHttpMethod": [ "POST" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "OrderAPI",
+      "DownstreamPathTemplate": "/api/order",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/order",
+      "UpstreamHttpMethod": [ "POST" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "Host": "consul",
+    "Port": "8500",
+    "Type": "Consul"
+  }
+}
