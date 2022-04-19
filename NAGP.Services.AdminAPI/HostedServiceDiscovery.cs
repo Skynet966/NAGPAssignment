@@ -5,7 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NAGP.Services.ServiceAPI
+namespace NAGP.Services.AdminAPI
 {
     public class HostedServiceDiscovery : IHostedService
     {
@@ -18,14 +18,14 @@ namespace NAGP.Services.ServiceAPI
 
             consulClient = new ConsulClient(config =>
             {
-                config.Address = configuration.GetValue<Uri>("ServiceConfig:ServiceDiscoveryAddress");
+                config.Address = configuration.GetValue<Uri>("ServiceConfiguration:ServiceDiscoveryAddress");
             });
         }
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            var serviceName = configuration.GetValue<string>("ServiceConfig:ServiceName");
-            var serviceId = configuration.GetValue<string>("ServiceConfig:ServiceId");
-            var serviceAddress = configuration.GetValue<Uri>("ServiceConfig:ServiceAddress");
+            var serviceName = configuration.GetValue<string>("ServiceConfiguration:ServiceName");
+            var serviceId = configuration.GetValue<string>("ServiceConfiguration:ServiceId");
+            var serviceAddress = configuration.GetValue<Uri>("ServiceConfiguration:ServiceAddress");
 
             registrationId = $"{serviceName}-{serviceId}";
 

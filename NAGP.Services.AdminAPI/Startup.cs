@@ -32,6 +32,7 @@ namespace NAGP.Services.AdminAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NAGP.Services.AdminAPI", Version = "v1" });
             });
+            services.AddSingleton<IHostedService, HostedServiceDiscovery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
