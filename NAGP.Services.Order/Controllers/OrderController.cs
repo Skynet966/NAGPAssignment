@@ -37,18 +37,10 @@ namespace NAGP.Services.OrderAPI.Controllers
             return orderRepository.OrderById(id).ConfirmStatus;
         }
 
-        // PUT api/<OrderController>/5
-        [HttpPut("customer/{id}")]
-        public List<Order> GetCustomerOrders(int id)
+        [HttpPost]
+        public Order PlaceOrder([FromBody]Order order)
         {
-            return orderRepository.CustomerOrders(id);
-        }
-
-        // DELETE api/<OrderController>/5
-        [HttpPut("provider/{id}")]
-        public List<Order> GetProviderOrders(int id)
-        {
-            return orderRepository.ProviderOrders(id);
+            return orderRepository.AddOrder(order);
         }
     }
 }

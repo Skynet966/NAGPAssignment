@@ -29,6 +29,14 @@ namespace NAGP.Services.ServiceAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var retryPolicy = GetRetryPolicy();
+            //var circuitBreakerPolicy = GetCircuitBreakerPolicy();
+
+            //services.AddHttpClient<IBasketService, BasketService>()
+            //        .SetHandlerLifetime(TimeSpan.FromMinutes(5))  // Sample: default lifetime is 2 minutes
+            //        .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+            //        .AddPolicyHandler(retryPolicy)
+            //        .AddPolicyHandler(circuitBreakerPolicy);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -63,7 +71,7 @@ namespace NAGP.Services.ServiceAPI
         {
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
-                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(60));
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
     }
 }

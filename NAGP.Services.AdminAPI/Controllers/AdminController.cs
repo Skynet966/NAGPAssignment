@@ -16,7 +16,7 @@ namespace NAGP.Services.AdminAPI.Controllers
             adminRepository = new AdminRepository();
         }
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public string Login(string username, string password)
         {
             return adminRepository.IsValidAdmin(username, password) ? "Welcome" : "Username or password not correct!!!";

@@ -31,7 +31,7 @@ namespace NAGP.Services.ProviderAPI.Controllers
         }
 
         // POST api/<ProviderController>
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public string Login(string username, string password)
         {
             return providerRepository.IsValidProvider(username, password)?"Welcome":"Username or password not correct!!!";

@@ -2,10 +2,10 @@
   "Routes": [
     {
       "ServiceName": "AdminAPI",
-      "DownstreamPathTemplate": "/api/admin",
+      "DownstreamPathTemplate": "/api/admin/login",
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
-      "UpstreamPathTemplate": "/admin",
+      "UpstreamPathTemplate": "/admin/login",
       "UpstreamHttpMethod": [ "POST" ],
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
@@ -17,6 +17,28 @@
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/customer",
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "CustomerAPI",
+      "DownstreamPathTemplate": "/api/customer/{id}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/customer/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "CustomerAPI",
+      "DownstreamPathTemplate": "/api/customer/login",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/customer/login",
       "UpstreamHttpMethod": [ "POST" ],
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
@@ -28,6 +50,28 @@
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/provider",
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "ProviderAPI",
+      "DownstreamPathTemplate": "/api/provider/{id}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/provider/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "ProviderAPI",
+      "DownstreamPathTemplate": "/api/provider/login",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/provider/login",
       "UpstreamHttpMethod": [ "POST" ],
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
@@ -39,7 +83,18 @@
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/service",
-      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "ServiceAPI",
+      "DownstreamPathTemplate": "/api/service/{id}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/service/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       }
@@ -50,7 +105,29 @@
       "DownstreamScheme": "https",
       "UseServiceDiscovery": true,
       "UpstreamPathTemplate": "/order",
-      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "OrderAPI",
+      "DownstreamPathTemplate": "/api/order/{id}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/order/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      }
+    },
+    {
+      "ServiceName": "OrderAPI",
+      "DownstreamPathTemplate": "/api/order/status/{id}",
+      "DownstreamScheme": "https",
+      "UseServiceDiscovery": true,
+      "UpstreamPathTemplate": "/order/status/{id}",
+      "UpstreamHttpMethod": [ "GET" ],
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       }

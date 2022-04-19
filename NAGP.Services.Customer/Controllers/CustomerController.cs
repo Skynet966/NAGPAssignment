@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 using NAGP.Services.CustomerAPI.Entities;
 using NAGP.Services.CustomerAPI.Repositories;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace NAGP.Services.CustomerAPI.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly CustomerRepository customerRepository;
+        
         public CustomerController()
         {
             customerRepository = new CustomerRepository();
@@ -31,7 +33,7 @@ namespace NAGP.Services.CustomerAPI.Controllers
         }
 
         // POST api/<ProviderController>
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public string Login(string username, string password)
         {
             return customerRepository.IsValidCustomer(username, password) ? "Welcome" : "Username or password not correct!!!";
