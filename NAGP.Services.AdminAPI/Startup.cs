@@ -1,16 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NAGP.Services.AdminAPI.Service;
+using Polly;
+using Polly.Extensions.Http;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace NAGP.Services.AdminAPI
 {
@@ -33,6 +31,14 @@ namespace NAGP.Services.AdminAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NAGP.Services.AdminAPI", Version = "v1" });
             });
             services.AddSingleton<IHostedService, HostedServiceDiscovery>();
+            services.AddHttpClient<IOrderService, OrderService>(o => 
+            o.BaseAddress = new Uri(Configuration["OrderAPIURL"]))
+                .SetHandlerLifetime(TimeSpan.FromMinutes(10))
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
+            services.AddHttpClient<IProviderService, ProviderService>(o =>
+            o.BaseAddress = new Uri(Configuration["ProviderAPIURL"]))
+                .SetHandlerLifetime(TimeSpan.FromMinutes(10))
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +61,12 @@ namespace NAGP.Services.AdminAPI
             {
                 endpoints.MapControllers();
             });
+        }
+        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(60));
         }
     }
 }

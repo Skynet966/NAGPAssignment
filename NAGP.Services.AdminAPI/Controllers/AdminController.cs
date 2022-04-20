@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NAGP.Services.AdminAPI.Repositories;
+using NAGP.Services.AdminAPI.Entities;
+using NAGP.Services.AdminAPI.Service;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,16 +12,53 @@ namespace NAGP.Services.AdminAPI.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly AdminRepository adminRepository;
-        public AdminController()
+        private readonly IOrderService _orderService;
+        private readonly IProviderService _providerService;
+        public AdminController(IOrderService orderService, IProviderService providerService)
         {
-            adminRepository = new AdminRepository();
+            _orderService = orderService;
+            _providerService = providerService;
         }
 
-        [HttpPost("Login")]
-        public string Login(string username, string password)
+        [HttpGet("PendingOrders")]
+        public async Task<ActionResult<List<Order>>> GetPendingOrders()
         {
-            return adminRepository.IsValidAdmin(username, password) ? "Welcome" : "Username or password not correct!!!";
+            var orders = await _orderService.GetPendingOrders();
+            if (orders.Count > 0)
+            {
+                return Ok(orders);
+            }
+            return NotFound("No pending order present yet!");
+        }
+        [HttpGet("AvailableProviders/{serviceId}")]
+        public async Task<ActionResult<List<Order>>> GetAvailableServiceProviders(int serviceId)
+        {
+            var providers = await _providerService.GetAvailableProivders(serviceId);
+            if (providers.Count > 0)
+            {
+                return Ok(providers);
+            }
+            return NotFound("No service provider available yet!");
+        }
+        [HttpPost("AssignProvider")]
+        public async Task<ActionResult<Order>> AssignServiceProviders([FromBody] OrderProvider orderProvider)
+        {
+            Order order = await _orderService.GetOrderById(orderProvider.OrderId);
+            if (order != null)
+            {
+                order.ProviderId = orderProvider.ProviderId;
+                order.ConfirmStatus = OrderStatusEnum.Assigned;
+                var updatedOrder = await _orderService.AssignProviderOnOrder(order);
+                if (updatedOrder != null)
+                {
+                    return Ok(updatedOrder);
+                }
+            }
+            else
+            {
+                return NotFound("Invalid Order or Provider Id");
+            }
+            return BadRequest("Service provider not able to assigned!");
         }
     }
 }

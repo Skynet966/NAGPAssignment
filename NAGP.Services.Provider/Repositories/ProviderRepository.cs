@@ -23,6 +23,10 @@ namespace NAGP.Services.ProviderAPI.Repositories
         {
             return providers;
         }
+        public List<Provider> AvailableProviders(int serviceId)
+        {
+            return providers.FindAll(x=> x.IsAvailable && x.ServiceId == serviceId);
+        }
 
         public Provider GetProviderById(int id)
         {

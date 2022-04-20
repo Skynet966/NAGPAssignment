@@ -12,6 +12,6 @@ namespace NAGP.Services.ProviderAPI.Entities
         public string ServiceArea { get; set; }
         public string ContactNumber { get; set; }
         public int ServiceId { get; set; }
-        public bool IsActive { get; set; } = true;
+        public bool IsAvailable { get; set; } = true;
     }
 }

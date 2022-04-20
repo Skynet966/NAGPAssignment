@@ -22,14 +22,17 @@ namespace NAGP.Services.ProviderAPI.Controllers
         {
             return providerRepository.Providers();
         }
-
+        [HttpGet("Available/{serviceId}")]
+        public List<Provider> GetAvailableProviders(int serviceId)
+        {
+            return providerRepository.AvailableProviders(serviceId);
+        }
         // GET api/<ProviderController>/5
         [HttpGet("{id}")]
         public Provider GetProvider(int id)
         {
             return providerRepository.GetProviderById(id);
         }
-
         // POST api/<ProviderController>
         [HttpPost("Login")]
         public string Login(string username, string password)

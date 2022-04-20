@@ -11,6 +11,7 @@ namespace NAGP.Services.OrderAPI.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
+        public enum OrderDecisionEnum { Denied = -1, Accepted = 2 }
         private readonly OrderRepository orderRepository;
         public OrderController()
         {
@@ -38,9 +39,53 @@ namespace NAGP.Services.OrderAPI.Controllers
         }
 
         [HttpPost]
-        public Order PlaceOrder([FromBody]Order order)
+        public Order PlaceOrder([FromBody] Order order)
         {
             return orderRepository.AddOrder(order);
+        }
+
+        [HttpGet("Customer")]
+        public List<Order> GetCustomerOrders(int id)
+        {
+            return orderRepository.CustomerOrders(id);
+        }
+
+        [HttpGet("Customer/{id}/{customerId}")]
+        public Order GetOrderDetails(int id, int customerId)
+        {
+            // Also need to Provide Provider details 
+            return orderRepository.CustomerOrder(id,customerId);
+        }
+
+        [HttpGet("Provider")]
+        public List<Order> GetProviderOrders(int id)
+        {
+            return orderRepository.ProviderOrders(id);
+        }
+
+        [HttpGet("Provider/{id}/{providerId}")]
+        public Order GetProviderOrder(int id, int providerId)
+        {
+            // Also need to Provide Customer details 
+            return orderRepository.ProviderOrder(id,providerId);
+        }
+
+        [HttpPost("Provider/{id}")]
+        public Order ProviderOrderDecision(int id, [FromBody] OrderDecisionEnum decision)
+        {
+            return orderRepository.OrderProviderDecision(id, (OrderStatusEnum)decision);
+        }
+
+        [HttpGet("Pending")]
+        public List<Order> GetPendingOrders()
+        {
+            return orderRepository.PendingOrders();
+        }
+
+        [HttpPut("Assign")]
+        public Order OrdersAssignment([FromBody]Order order)
+        {
+            return orderRepository.UpdateOrder(order);
         }
     }
 }
