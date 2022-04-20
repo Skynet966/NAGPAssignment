@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  nagp.gateway:
+    image: ${DOCKER_REGISTRY-}nagpgateway
+    build:
+      context: .
+      dockerfile: NAGP.Gateway/Dockerfile
+  nagp.services.adminapi:
+    image: ${DOCKER_REGISTRY-}nagpservicesadminapi
+    build:
+      context: .
+      dockerfile: NAGP.Services.AdminAPI/Dockerfile
+  nagp.services.customerapi:
+    image: ${DOCKER_REGISTRY-}nagpservicescustomerapi
+    build:
+      context: .
+      dockerfile: NAGP.Services.CustomerAPI/Dockerfile
+  nagp.services.orderapi:
+    image: ${DOCKER_REGISTRY-}nagpservicesorderapi
+    build:
+      context: .
+      dockerfile: NAGP.Services.OrderAPI/Dockerfile
+  nagp.services.providerapi:
+    image: ${DOCKER_REGISTRY-}nagpservicesproviderapi
+    build:
+      context: .
+      dockerfile: NAGP.Services.ProviderAPI/Dockerfile
+  nagp.services.serviceapi:
+    image: ${DOCKER_REGISTRY-}nagpservicesserviceapi
+    build:
+      context: .
+      dockerfile: NAGP.Services.ServiceAPI/Dockerfile
