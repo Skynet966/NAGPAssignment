@@ -12,5 +12,6 @@ namespace NAGP.Services.AdminAPI.Entities
         public string Name { get; set; }
         [Required]
         public string ServiceArea { get; set; }
+        public int ServiceId { get; set; }
     }
 }

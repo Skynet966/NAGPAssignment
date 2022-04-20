@@ -39,17 +39,17 @@ namespace NAGP.Services.OrderAPI.Repositories
         {
             return orders.FindAll(x => x.ProviderId == providerId);
         }
-        public Order ProviderOrder(int id, int providerId)
+        public List<Order> ProviderNewOrders(int providerId)
         {
-            return orders.FirstOrDefault(x => x.ProviderId == providerId && x.Id == id);
+            return orders.FindAll(x => x.ProviderId == providerId && x.ConfirmStatus == OrderStatusEnum.Assigned);
+        }
+        public Order ProviderOrder(int orderId, int providerId)
+        {
+            return orders.FirstOrDefault(x => x.ProviderId == providerId && x.Id == orderId);
         }
         public List<Order> CustomerOrders(int customerId)
         {
             return orders.FindAll(x => x.CustomerId == customerId);
-        }
-        public Order CustomerOrder(int id, int customerId)
-        {
-            return orders.FirstOrDefault(x => x.CustomerId == customerId && x.Id == id);
         }
         public List<Order> PendingOrders()
         {
@@ -61,10 +61,9 @@ namespace NAGP.Services.OrderAPI.Repositories
             if (order != null) order = newOrder;
             return order;
         }
-
-        public Order OrderProviderDecision(int id, OrderStatusEnum status)
+        public Order OrderProviderDecision(int  orderId, OrderStatusEnum status)
         {
-            Order order = orders.FirstOrDefault(x => x.Id == id);
+            Order order = orders.FirstOrDefault(x => x.Id == orderId);
             order.ConfirmStatus = status;
             return order;
         }

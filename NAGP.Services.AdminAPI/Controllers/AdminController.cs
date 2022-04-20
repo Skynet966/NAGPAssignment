@@ -20,7 +20,7 @@ namespace NAGP.Services.AdminAPI.Controllers
             _providerService = providerService;
         }
 
-        [HttpGet("PendingOrders")]
+        [HttpGet("Orders")]
         public async Task<ActionResult<List<Order>>> GetPendingOrders()
         {
             var orders = await _orderService.GetPendingOrders();
@@ -30,8 +30,8 @@ namespace NAGP.Services.AdminAPI.Controllers
             }
             return NotFound("No pending order present yet!");
         }
-        [HttpGet("AvailableProviders/{serviceId}")]
-        public async Task<ActionResult<List<Order>>> GetAvailableServiceProviders(int serviceId)
+        [HttpGet("Providers/service/{serviceId}")]
+        public async Task<ActionResult<List<Provider>>> GetAvailableServiceProviders(int serviceId)
         {
             var providers = await _providerService.GetAvailableProivders(serviceId);
             if (providers.Count > 0)
@@ -40,11 +40,12 @@ namespace NAGP.Services.AdminAPI.Controllers
             }
             return NotFound("No service provider available yet!");
         }
-        [HttpPost("AssignProvider")]
+        [HttpPost("Provider")]
         public async Task<ActionResult<Order>> AssignServiceProviders([FromBody] OrderProvider orderProvider)
         {
             Order order = await _orderService.GetOrderById(orderProvider.OrderId);
-            if (order != null)
+            Provider provider = await _providerService.GetProviderById(orderProvider.ProviderId);
+            if (order != null && provider != null && order.ServiceId == provider.ServiceId)
             {
                 order.ProviderId = orderProvider.ProviderId;
                 order.ConfirmStatus = OrderStatusEnum.Assigned;
@@ -56,7 +57,7 @@ namespace NAGP.Services.AdminAPI.Controllers
             }
             else
             {
-                return NotFound("Invalid Order or Provider Id");
+                return NotFound("Invalid Order or Provider Id else Incompatable service provider!!");
             }
             return BadRequest("Service provider not able to assigned!");
         }

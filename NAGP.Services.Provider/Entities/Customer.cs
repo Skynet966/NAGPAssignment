@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace NAGP.Services.CustomerAPI.Entities
+namespace NAGP.Services.ProviderAPI.Entities
 {
     public class Customer
     {

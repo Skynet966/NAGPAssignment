@@ -11,8 +11,6 @@ namespace NAGP.Services.ServiceAPI.Entities
         [Required]
         public string Description { get; set; }
         [Required]
-        public bool Status { get; set; } = true;
-        [Required]
         public string Charges { get; set; }
     }
 }

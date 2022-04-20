@@ -32,48 +32,47 @@ namespace NAGP.Services.OrderAPI.Controllers
         }
 
         // POST api/<OrderController>
-        [HttpGet("status/{id}")]
+        [HttpGet("Status/{id}")]
         public OrderStatusEnum GetOrderStatus(int id)
         {
             return orderRepository.OrderById(id).ConfirmStatus;
         }
 
-        [HttpPost]
-        public Order PlaceOrder([FromBody] Order order)
+        [HttpPost("Create")]
+        public Order create([FromBody] Order order)
         {
             return orderRepository.AddOrder(order);
         }
 
-        [HttpGet("Customer")]
-        public List<Order> GetCustomerOrders(int id)
+        [HttpGet("Customer/{customerId}")]
+        public List<Order> GetCustomerOrders(int customerId)
         {
-            return orderRepository.CustomerOrders(id);
+            return orderRepository.CustomerOrders(customerId);
         }
 
-        [HttpGet("Customer/{id}/{customerId}")]
-        public Order GetOrderDetails(int id, int customerId)
+        [HttpGet("Provider/{providerId}")]
+        public List<Order> GetProviderOrders(int providerId)
         {
-            // Also need to Provide Provider details 
-            return orderRepository.CustomerOrder(id,customerId);
+            return orderRepository.ProviderOrders(providerId);
         }
 
-        [HttpGet("Provider")]
-        public List<Order> GetProviderOrders(int id)
+        [HttpGet("Provider/{providerId}/new")]
+        public List<Order> GetProviderNewOrders(int providerId)
         {
-            return orderRepository.ProviderOrders(id);
+            return orderRepository.ProviderNewOrders(providerId);
         }
 
         [HttpGet("Provider/{id}/{providerId}")]
-        public Order GetProviderOrder(int id, int providerId)
+        public Order GetProviderOrder(int orderId, int providerId)
         {
             // Also need to Provide Customer details 
-            return orderRepository.ProviderOrder(id,providerId);
+            return orderRepository.ProviderOrder(orderId, providerId);
         }
 
         [HttpPost("Provider/{id}")]
-        public Order ProviderOrderDecision(int id, [FromBody] OrderDecisionEnum decision)
+        public Order ProviderOrderDecision(int orderId, [FromBody] OrderDecisionEnum decision)
         {
-            return orderRepository.OrderProviderDecision(id, (OrderStatusEnum)decision);
+            return orderRepository.OrderProviderDecision(orderId, (OrderStatusEnum)decision);
         }
 
         [HttpGet("Pending")]

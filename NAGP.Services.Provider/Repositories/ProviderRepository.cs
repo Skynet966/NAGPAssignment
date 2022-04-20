@@ -12,10 +12,10 @@ namespace NAGP.Services.ProviderAPI.Repositories
         {
             providers = new List<Provider>
             {
-                new Provider{Id = 1, Name ="sumit", Username="sumit@123", Password="sumit@123", ContactNumber="9871778941", ServiceArea="Haryana", ServiceId=1},
-                new Provider{Id = 2, Name ="amit", Username="amit@123", Password="amit@123", ContactNumber="9871778931", ServiceArea="Delhi",ServiceId=2},
-                new Provider{Id = 3, Name ="ronit", Username="ronit@123", Password="ronit@123", ContactNumber="9871778942", ServiceArea="Haryana",ServiceId=3},
-                new Provider{Id = 4, Name ="tina", Username="tina@123", Password="tina@123", ContactNumber="9871778932", ServiceArea="UP",ServiceId=4},
+                new Provider{Id = 1, Name ="sumit", ContactNumber="9871778941", ServiceArea="Gurugram", ServiceId=1},
+                new Provider{Id = 2, Name ="amit", ContactNumber="9871778931", ServiceArea="Delhi",ServiceId=2},
+                new Provider{Id = 3, Name ="ronit", ContactNumber="9871778942", ServiceArea="Noida",ServiceId=3},
+                new Provider{Id = 4, Name ="tina", ContactNumber="9871778932", ServiceArea="Rohtak",ServiceId=4},
             };
         }
 
@@ -31,12 +31,6 @@ namespace NAGP.Services.ProviderAPI.Repositories
         public Provider GetProviderById(int id)
         {
             return providers.FirstOrDefault(x=> x.Id == id);   
-        }
-
-        public bool IsValidProvider(string username, string password)
-        {
-            Provider provider = providers.FirstOrDefault(x => x.Username == username && x.Password == password);
-            return provider != null;
         }
     }
 }

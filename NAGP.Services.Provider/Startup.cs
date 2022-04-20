@@ -7,9 +7,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using NAGP.Services.ProviderAPI.Service;
+using Polly;
+using Polly.Extensions.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NAGP.Services.ProviderAPI
@@ -33,6 +37,21 @@ namespace NAGP.Services.ProviderAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NAGP.Services.Provider", Version = "v1" });
             });
             services.AddSingleton<IHostedService, HostedServiceDiscovery>();
+
+            services.AddHttpClient<IOrderService, OrderService>(o =>
+            o.BaseAddress = new Uri(Configuration["OrderAPIURL"]))
+                .SetHandlerLifetime(TimeSpan.FromMinutes(10))
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+            services.AddHttpClient<ICustomerService, CustomerService>(o =>
+            o.BaseAddress = new Uri(Configuration["CustomerAPIURL"]))
+                .SetHandlerLifetime(TimeSpan.FromMinutes(10))
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
+
+            services.AddHttpClient<IServiceService, ServiceService>(o =>
+            o.BaseAddress = new Uri(Configuration["ServiceAPIURL"]))
+                .SetHandlerLifetime(TimeSpan.FromMinutes(10))
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +74,13 @@ namespace NAGP.Services.ProviderAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(60));
         }
     }
 }
